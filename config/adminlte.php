@@ -327,7 +327,7 @@ return [
             'text'       => ' Reportes',
             'icon_color' => 'yellow',
             'icon'       => 'fas fa-file-contract',
-            'url'        => '#',
+            'url'        => '/admin/reports',
         ],
         [
             'text'       => 'Perfil',

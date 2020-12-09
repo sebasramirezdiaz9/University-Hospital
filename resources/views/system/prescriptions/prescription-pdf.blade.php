@@ -181,85 +181,55 @@
 </head>
 <body>
 <main>
-        <div class="breakNow"></div>
-                    <div id="details" class="clearfix">
-                    <img src="{{ public_path('/images/logo/logo.png') }}" width="100px" height="100px">
-                    <div class="date">{{\Carbon\Carbon::now()->format('Y-m-d')}}</div>
-                    <br><br>
-                    <div id="invoice" class="pull-left">
-                        <div><h1>Receta Médica</h1></div>
-                    </div>
-                    <div id="invoice" class="pull-right">
-                        <div><h1>Paciente: {{$prescription[0]->paciente}}</h1></div>
-                        <div>
-                            <h2 id="title">
-                                <strong>
-                                        ClinicaBienestar
-                                </strong>
-                            </h2>
-                        </div>
-                    </div>
-                    <div class="rectangular-box"></div>
-                    <br>
-                </div>
-                <br>
-                <br>
-                <br>
-                <h2 class="text-red pull-left">Medicamentos</h2>
-                @foreach($medicines as $medicine)
-                <br>
-                <br>
-                <br>
-                <table style="width: 100%">
+    <div class="breakNow"></div>
+        <div id="details" class="clearfix">
+        <img src="{{ public_path('/storage/login.png') }}" width="100px" height="100px">
+        <div class="date">{{\Carbon\Carbon::now()->format('Y-m-d')}}</div>
+        <br><br>
+        <div id="invoice" class="pull-left">
+            <div><h1>Receta Médica</h1></div>
+        </div>
+        <div id="invoice" class="pull-right">
+            <div><h1 style="color: blue;">Paciente: {{$prescription[0]->paciente}}</h1></div>
+           
+        </div>
+        <div class="rectangular-box"></div>
+        <br>
+    </div>
+    <br>
+    <br>
+    <br>
+    <h2 class="text-red pull-left">Medicamentos</h2>
+    @foreach($medicines as $medicine)
+    <br>
+    <br>
+    <br>
+    <table style="width: 100%">
+        <tr>
+            <td style="width: 35% !important; padding-top:8px;">
+                <table border="0" cellspacing="3" cellpadding="3" class="table_left">
                     <tr>
-                        <td style="width: 35% !important; padding-top:8px;">
-                            <table border="0" cellspacing="3" cellpadding="3" class="table_left">
-                                <tr>
-                                    <td><label class="title" for="input"> Número de venta</label></td>
-                                    <td><label class="desc">{{$sale->id}}</label></td>
-                                </tr>
-                                <tr>
-                                    <td><label class="title" for="input">Vendedor</label></td>
-                                    <td><label class="desc">{{$sale->user_name}}</label></td>
-                                </tr>
-                                <tr>
-                                    <td><label class="title" for="input">Cliente</label></td>
-                                    <td>
-                                        <label class="desc">
-                                        {{$sale->customer_name}}
-                                        </label>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><label class="title" for="input">Método de pago</label></td>
-                                    <td><label class="desc">{{$sale->payment_method_name}}</label></td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td style="width: 35% !important; padding-top:8px; vertical-align: top">
-                            <table border="0" cellspacing="0" cellpadding="0" class="table_left">
-                                <tr>
-                                    <td><label class="title" for="input">Fecha de venta</label></td>
-                                    <td>
-                                        <label class="desc" style="font-size: 90%;">
-                                        {{$sale->date}}
-                                        </label>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><label class="title" for="input">Tipo de venta</label></td>
-                                    <td><label class="desc"> {{$sale->sale_type_name}}</label></td>
-                                </tr>
-                                <tr>
-                                    <td><label class="title" for="input">Total de la venta</label></td>
-                                    <td><label class="desc">{{$sale->sale_total}}</label></td>
-                                </tr>
-                            </table>
-                        </td>
+                        <td><label class="title" for="input"> Medicamento</label></td>
+                        <td><label class="desc">{{$medicine->medicamento}}</label></td>
+                    </tr>
+                    <tr>
+                        <td><label class="title" for="input">Instrucciones</label></td>
+                        <td><label class="desc">{{$medicine->instrucciones}}</label></td>
                     </tr>
                 </table>
-                <hr>
-                @endforeach
+            </td>
+        </tr>
+    </table>
+    <hr>
+    @endforeach
+    <div>
+        <h1 style="float: left !important;" id="title">
+            <strong>
+                    Clinica Bienestar
+            </strong>
+        </h1>
+    </div>
+    <div><h1 style="color: blue;">Doctor: {{$prescription[0]->doctor}}</h1></div>
 </main>
 </body>
 </html>

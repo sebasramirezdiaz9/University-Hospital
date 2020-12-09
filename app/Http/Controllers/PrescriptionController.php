@@ -92,7 +92,7 @@ class PrescriptionController extends Controller
     public function downloadPdf($id)
     {
         $prescription = DB::select('select b.name as doctor, c.name as paciente, d.nombre as estado from recetas_medicas a, doctores b, pacientes c, estado_receta d where d.id = a.estado_receta_id and c.id = a.paciente_id and b.id = a.doctor_id and a.id = ?', [$id]);     
-        //$medicines = DB::select('select a.name as doctor, c.name as paciente, d.nombre as estado from recetas_medicas a, doctores b, pacientes c, estado_receta d where d.id = a.estado_receta_id and c.id = a.paciente_id and b.id = a.doctor_id and a.id = ?', [$id]);     
+        $medicines = DB::select('select b.nombre as medicamento, c.instrucciones as instrucciones from recetas_medicas a, medicamento b, medicamento_receta_medica c where a.id = c.receta_medica_id and b.id = c.medicamento_id and a.id = ?', [$id]);    
         $pdf = PDF::loadView('system.prescriptions.prescription-pdf',  ['prescription' => $prescription, 'medicines' => $medicines]);
         return $pdf->download('receta_medica.pdf');
        

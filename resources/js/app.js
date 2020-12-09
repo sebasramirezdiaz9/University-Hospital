@@ -55,6 +55,7 @@ import ProviderCreate from './components/provider/ProviderCreate';
 import ProviderIndex from './components/provider/ProviderIndex';
 import PrescriptionCreate from './components/prescriptions/PrescriptionCreate';
 import PrescriptionIndex from './components/prescriptions/PrescriptionIndex';
+import ReportsIndex from './components/reports/ReportsIndex';
 
 Vue.component('v-select', vSelect);
 /**
@@ -88,5 +89,6 @@ const app = new Vue({
         ProviderIndex,
         PrescriptionCreate,
         PrescriptionIndex,
+        ReportsIndex
     }
 });

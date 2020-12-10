@@ -52,9 +52,11 @@ Route::get('/admin/dates', function () {
 Route::get('/admin/file', function () {
     return view('system.file.index');
 })->name('file.view');
+
 Route::get('/admin/inventory', function () {
     return view('system.inventory.index');
-})->name('dates.view');
+})->name('invetory.view');
+
 Route::get('/admin/provider', function () {
     return view('system.provider.index');
 })->name('provider.view');
@@ -89,5 +91,11 @@ Route::middleware(['auth'])->group(function () {
     Route::get('get/patients/all/', [PatientsController::class, 'getAllPatients'])->name('patients.all');
     Route::get('get/medicines/all/', [MedicineController::class, 'getAllMedicines'])->name('medicines.all');
     Route::get('get/prescription/{id}/pdf', [PrescriptionController::class, 'downloadPdf'])->name('prescription.pdf');
+    Route::get('get/patients/pdf', [PatientsController::class, 'getPdf'])->name('patients.pdf');
+    Route::get('get/inventories/pdf', [InventoryController::class, 'getPdf'])->name('inventories.pdf');
+    Route::get('get/dates/pdf', [DateController::class, 'getPdf'])->name('dates.pdf');
+    Route::get('get/patients/month', [PatientsController::class, 'patientChart'])->name('patients.month');
+    Route::get('get/doctors/dates', [DateController::class, 'dateChart'])->name('doctors.dates');
+    Route::get('get/medicines/stock', [InventoryController::class, 'getMinStock'])->name('min.stock');
 });
 

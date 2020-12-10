@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 use App\Models\Inventory;
+use Barryvdh\Snappy\Facades\SnappyPdf as PDF;
+use Illuminate\Support\Facades\DB;
 
 
 use Illuminate\Http\Request;
@@ -33,6 +35,13 @@ class InventoryController extends Controller
        
     }
 
+    public function getPdf()
+    {
+        $inventories = DB::select('select b.nombre as medicamento, a.cantidad as cantidad from inventarios a, medicamento b where b.id = a.medicamento_id');    
+        $pdf = PDF::loadView('system.inventory.inventory-pdf',  ['inventories' => $inventories]);
+        return $pdf->download('inventario.pdf');
+    }
+
 
     public function show($id)
     {
@@ -57,6 +66,11 @@ class InventoryController extends Controller
     {
        
     
+    }
+
+    public function getMinStock()
+    {
+        return DB::select('select b.nombre as medicamento, a.cantidad as cantidad from inventarios a, medicamento b where b.id = a.medicamento_id and cantidad = ( select MIN(cantidad) from inventarios a)');    
     }
     
      

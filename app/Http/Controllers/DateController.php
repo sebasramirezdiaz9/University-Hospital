@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Models\Date;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\DateRequest;
 use Carbon\Carbon;
+use Barryvdh\Snappy\Facades\SnappyPdf as PDF;
 
 class DateController extends Controller
 {
@@ -95,6 +97,29 @@ class DateController extends Controller
 
         return $date;
     
+    }
+
+    public function dateChart()
+    {
+        $dates = DB::select('select a.name as Doctor, COUNT(b.id) as citas from doctores a, citas b where a.id = b.doctor_id group by a.name');
+      
+        $dates_control = array();
+        $doctors = array();
+       
+       
+        foreach($dates as $date)
+        {
+           array_push($doctors, $date->Doctor);
+           array_push($dates_control, $date->citas);
+        }
+        return compact('dates_control', 'doctors');
+    }
+
+    public function getPdf()
+    {
+        $dates = DB::select('select a.id as id, a.fecha as fecha ,b.name as doctor, c.name as paciente from citas a, doctores b, pacientes c where c.id = a.paciente_id and b.id = a.doctor_id');     
+        $pdf = PDF::loadView('system.dates.dates-pdf',  ['dates' => $dates]);
+        return $pdf->download('citas.pdf');
     }
 
 }

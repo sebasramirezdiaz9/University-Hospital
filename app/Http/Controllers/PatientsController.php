@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Patients;
 use App\Http\Requests\PatientRequest;
-
+use Barryvdh\Snappy\Facades\SnappyPdf as PDF;
+use Illuminate\Support\Facades\DB;
 
 class PatientsController extends Controller
 {
@@ -101,6 +102,28 @@ class PatientsController extends Controller
     public function getAllPatients()
     {
         return Patients::all();
+    }
+
+    public function patientChart()
+    {
+        $patients = DB::select('select MONTH(created_at) as month, COUNT(id) as total from pacientes group by MONTH(created_at)');
+
+        $array = array();
+
+        $array = array_pad($array,12,0);
+       
+        foreach($patients as $patient)
+        {
+            $array[$patient->month] = $patient->total;
+        }
+        return $array;
+    }
+
+    public function getPdf()
+    {
+        $patients = DB::select('select * from pacientes');   
+        $pdf = PDF::loadView('system.patients.patients-pdf',  ['patients' => $patients]);  
+        return $pdf->download('pacientes.pdf');
     }
 
 }

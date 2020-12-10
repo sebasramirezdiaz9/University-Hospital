@@ -48,8 +48,19 @@
           
             }
         },
+        created()
+        {
+            this.getData();
+        },
         methods: {
-            
+            getData()
+            {
+                axios.get(this.$route('patients.month')).then((response) =>
+                {
+                    this.series = [];
+                    this.series.push({name: "Pacientes", data: response.data});
+                });
+            }
         }
     }
 </script>

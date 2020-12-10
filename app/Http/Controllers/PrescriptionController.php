@@ -97,5 +97,5 @@ class PrescriptionController extends Controller
         return $pdf->download('receta_medica.pdf');
        
     }
-
+    
 }

@@ -9,7 +9,7 @@
                         <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
                     </div>
                     <div class="card-body">
-                        <a href="#" style="float:right;" class="card-link">Generar Reporte</a>
+                        <a href="#" @click="datePdf()" style="float:right;" class="card-link">Generar Reporte</a>
                     </div>
                     </div>
             </div>
@@ -21,7 +21,7 @@
                         <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
                     </div>
                     <div class="card-body">
-                        <a href="#" style="float:right;" class="card-link">Generar Reporte</a>
+                        <a href="#" @click="patientsPdf()" style="float:right;" class="card-link">Generar Reporte</a>
                     </div>
                     </div>
             </div>
@@ -35,7 +35,7 @@
                         <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
                     </div>
                     <div class="card-body">
-                        <a href="#" style="float:right;" class="card-link">Generar Reporte</a>
+                        <a href="#"  @click="inventoryPdf()" style="float:right;" class="card-link">Generar Reporte</a>
                     </div>
                 </div>
             </div>
@@ -63,7 +63,52 @@
             }
         },
         methods: {
-            
+             patientsPdf(){
+                axios({
+                    method: "GET",
+                    url: (this.$route('patients.pdf')),
+                    responseType: 'blob'
+
+                }).then((response) => {
+                    const url = window.URL.createObjectURL(new Blob([response.data]));
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.setAttribute('download',response.headers['content-disposition'].match('\"(.*?)\"')[1]); //or any other extension
+                    document.body.appendChild(link);
+                    link.click();
+                });
+             },
+             inventoryPdf(){
+                axios({
+                    method: "GET",
+                    url: (this.$route('inventories.pdf')),
+                    responseType: 'blob'
+
+                }).then((response) => {
+                    const url = window.URL.createObjectURL(new Blob([response.data]));
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.setAttribute('download',response.headers['content-disposition'].match('\"(.*?)\"')[1]); //or any other extension
+                    document.body.appendChild(link);
+                    link.click();
+                });
+             },
+
+             datePdf(){
+                axios({
+                    method: "GET",
+                    url: (this.$route('dates.pdf')),
+                    responseType: 'blob'
+
+                }).then((response) => {
+                    const url = window.URL.createObjectURL(new Blob([response.data]));
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.setAttribute('download',response.headers['content-disposition'].match('\"(.*?)\"')[1]); //or any other extension
+                    document.body.appendChild(link);
+                    link.click();
+                });
+             }
         }
     }
 </script>

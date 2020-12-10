@@ -2273,7 +2273,23 @@ __webpack_require__.r(__webpack_exports__);
       }
     };
   },
-  methods: {}
+  created: function created() {
+    this.getData();
+  },
+  methods: {
+    getData: function getData() {
+      var _this = this;
+
+      axios.get(this.$route('patients.month')).then(function (response) {
+        _this.series = [];
+
+        _this.series.push({
+          name: "Pacientes",
+          data: response.data
+        });
+      });
+    }
+  }
 });
 
 /***/ }),
@@ -2296,13 +2312,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      series: [44, 55, 13, 43, 22],
+      series: [],
       chartOptions: {
         chart: {
           width: 380,
           type: 'pie'
         },
-        labels: ['Team A', 'Team B', 'Team C', 'Team D', 'Team E'],
+        labels: [],
         responsive: [{
           breakpoint: 480,
           options: {
@@ -2317,7 +2333,23 @@ __webpack_require__.r(__webpack_exports__);
       }
     };
   },
-  methods: {}
+  created: function created() {
+    this.getData();
+  },
+  methods: {
+    getData: function getData() {
+      var _this = this;
+
+      axios.get(this.$route('doctors.dates')).then(function (response) {
+        response.data.dates_control.forEach(function (element) {
+          _this.series.push(parseInt(element));
+        });
+        response.data.doctors.forEach(function (element) {
+          _this.chartOptions.labels.push("Doctor " + element);
+        });
+      });
+    }
+  }
 });
 
 /***/ }),
@@ -2381,11 +2413,21 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      stock: 3,
-      medicine: 'Paracetamol'
+      array_result: [{}]
     };
   },
-  methods: {}
+  created: function created() {
+    this.getMinStock();
+  },
+  methods: {
+    getMinStock: function getMinStock() {
+      var _this = this;
+
+      axios.get(this.$route('min.stock')).then(function (response) {
+        _this.array_result = response.data;
+      });
+    }
+  }
 });
 
 /***/ }),
@@ -5522,7 +5564,53 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {};
   },
-  methods: {}
+  methods: {
+    patientsPdf: function patientsPdf() {
+      axios({
+        method: "GET",
+        url: this.$route('patients.pdf'),
+        responseType: 'blob'
+      }).then(function (response) {
+        var url = window.URL.createObjectURL(new Blob([response.data]));
+        var link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', response.headers['content-disposition'].match('\"(.*?)\"')[1]); //or any other extension
+
+        document.body.appendChild(link);
+        link.click();
+      });
+    },
+    inventoryPdf: function inventoryPdf() {
+      axios({
+        method: "GET",
+        url: this.$route('inventories.pdf'),
+        responseType: 'blob'
+      }).then(function (response) {
+        var url = window.URL.createObjectURL(new Blob([response.data]));
+        var link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', response.headers['content-disposition'].match('\"(.*?)\"')[1]); //or any other extension
+
+        document.body.appendChild(link);
+        link.click();
+      });
+    },
+    datePdf: function datePdf() {
+      axios({
+        method: "GET",
+        url: this.$route('dates.pdf'),
+        responseType: 'blob'
+      }).then(function (response) {
+        var url = window.URL.createObjectURL(new Blob([response.data]));
+        var link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', response.headers['content-disposition'].match('\"(.*?)\"')[1]); //or any other extension
+
+        document.body.appendChild(link);
+        link.click();
+      });
+    }
+  }
 });
 
 /***/ }),
@@ -52341,13 +52429,13 @@ var render = function() {
         _c("h5", { staticClass: "card-title" }, [
           _vm._v("Medicamento con menos stock en inventario:  "),
           _c("h4", { staticStyle: { color: "#ff8d8d" } }, [
-            _vm._v(_vm._s(_vm.medicine))
+            _vm._v(_vm._s(_vm.array_result[0].medicamento))
           ])
         ]),
         _vm._v(" "),
         _c("p", { staticClass: "card-text" }, [
           _vm._v("El medicamento cuenta con una cantidad en inventario de: "),
-          _c("u", [_vm._v(_vm._s(_vm.stock))])
+          _c("u", [_vm._v(_vm._s(_vm.array_result[0].cantidad))])
         ])
       ]),
       _vm._v(" "),
@@ -58869,175 +58957,208 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c("div", [
+    _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col-md-6" }, [
+        _c(
+          "div",
+          {
+            staticClass: "card",
+            staticStyle: { width: "60%", margin: "auto", padding: "10px" }
+          },
+          [
+            _c("i", {
+              staticClass: "far fa-calendar-check fa-7x",
+              staticStyle: { margin: "auto", top: "10px", color: "#22424d" }
+            }),
+            _vm._v(" "),
+            _vm._m(0),
+            _vm._v(" "),
+            _c("div", { staticClass: "card-body" }, [
+              _c(
+                "a",
+                {
+                  staticClass: "card-link",
+                  staticStyle: { float: "right" },
+                  attrs: { href: "#" },
+                  on: {
+                    click: function($event) {
+                      return _vm.datePdf()
+                    }
+                  }
+                },
+                [_vm._v("Generar Reporte")]
+              )
+            ])
+          ]
+        )
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-md-6" }, [
+        _c(
+          "div",
+          {
+            staticClass: "card",
+            staticStyle: { width: "60%", margin: "auto", padding: "10px" }
+          },
+          [
+            _c("i", {
+              staticClass: "fas fa-users fa-7x",
+              staticStyle: { margin: "auto", top: "10px", color: "#22424d" }
+            }),
+            _vm._v(" "),
+            _vm._m(1),
+            _vm._v(" "),
+            _c("div", { staticClass: "card-body" }, [
+              _c(
+                "a",
+                {
+                  staticClass: "card-link",
+                  staticStyle: { float: "right" },
+                  attrs: { href: "#" },
+                  on: {
+                    click: function($event) {
+                      return _vm.patientsPdf()
+                    }
+                  }
+                },
+                [_vm._v("Generar Reporte")]
+              )
+            ])
+          ]
+        )
+      ])
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "row mt-5" }, [
+      _c("div", { staticClass: "col-md-6" }, [
+        _c(
+          "div",
+          {
+            staticClass: "card",
+            staticStyle: { width: "60%", margin: "auto", padding: "10px" }
+          },
+          [
+            _c("i", {
+              staticClass: "fas fa-box-open fa-7x",
+              staticStyle: { margin: "auto", top: "10px", color: "#22424d" }
+            }),
+            _vm._v(" "),
+            _vm._m(2),
+            _vm._v(" "),
+            _c("div", { staticClass: "card-body" }, [
+              _c(
+                "a",
+                {
+                  staticClass: "card-link",
+                  staticStyle: { float: "right" },
+                  attrs: { href: "#" },
+                  on: {
+                    click: function($event) {
+                      return _vm.inventoryPdf()
+                    }
+                  }
+                },
+                [_vm._v("Generar Reporte")]
+              )
+            ])
+          ]
+        )
+      ]),
+      _vm._v(" "),
+      _vm._m(3)
+    ])
+  ])
 }
 var staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", [
-      _c("div", { staticClass: "row" }, [
-        _c("div", { staticClass: "col-md-6" }, [
-          _c(
-            "div",
-            {
-              staticClass: "card",
-              staticStyle: { width: "60%", margin: "auto", padding: "10px" }
-            },
-            [
-              _c("i", {
-                staticClass: "far fa-calendar-check fa-7x",
-                staticStyle: { margin: "auto", top: "10px", color: "#22424d" }
-              }),
-              _vm._v(" "),
-              _c("div", { staticClass: "card-body" }, [
-                _c("h5", { staticClass: "card-title" }, [_vm._v("Citas")]),
-                _c("br"),
-                _vm._v(" "),
-                _c("p", { staticClass: "card-text" }, [
-                  _vm._v(
-                    "Some quick example text to build on the card title and make up the bulk of the card's content."
-                  )
-                ])
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "card-body" }, [
-                _c(
-                  "a",
-                  {
-                    staticClass: "card-link",
-                    staticStyle: { float: "right" },
-                    attrs: { href: "#" }
-                  },
-                  [_vm._v("Generar Reporte")]
-                )
-              ])
-            ]
-          )
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "col-md-6" }, [
-          _c(
-            "div",
-            {
-              staticClass: "card",
-              staticStyle: { width: "60%", margin: "auto", padding: "10px" }
-            },
-            [
-              _c("i", {
-                staticClass: "fas fa-users fa-7x",
-                staticStyle: { margin: "auto", top: "10px", color: "#22424d" }
-              }),
-              _vm._v(" "),
-              _c("div", { staticClass: "card-body" }, [
-                _c("h5", { staticClass: "card-title" }, [_vm._v("Pacientes")]),
-                _c("br"),
-                _vm._v(" "),
-                _c("p", { staticClass: "card-text" }, [
-                  _vm._v(
-                    "Some quick example text to build on the card title and make up the bulk of the card's content."
-                  )
-                ])
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "card-body" }, [
-                _c(
-                  "a",
-                  {
-                    staticClass: "card-link",
-                    staticStyle: { float: "right" },
-                    attrs: { href: "#" }
-                  },
-                  [_vm._v("Generar Reporte")]
-                )
-              ])
-            ]
-          )
-        ])
-      ]),
+    return _c("div", { staticClass: "card-body" }, [
+      _c("h5", { staticClass: "card-title" }, [_vm._v("Citas")]),
+      _c("br"),
       _vm._v(" "),
-      _c("div", { staticClass: "row mt-5" }, [
-        _c("div", { staticClass: "col-md-6" }, [
-          _c(
-            "div",
-            {
-              staticClass: "card",
-              staticStyle: { width: "60%", margin: "auto", padding: "10px" }
-            },
-            [
-              _c("i", {
-                staticClass: "fas fa-box-open fa-7x",
-                staticStyle: { margin: "auto", top: "10px", color: "#22424d" }
-              }),
-              _vm._v(" "),
-              _c("div", { staticClass: "card-body" }, [
-                _c("h5", { staticClass: "card-title" }, [_vm._v("Inventario")]),
-                _c("br"),
-                _vm._v(" "),
-                _c("p", { staticClass: "card-text" }, [
-                  _vm._v(
-                    "Some quick example text to build on the card title and make up the bulk of the card's content."
-                  )
-                ])
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "card-body" }, [
-                _c(
-                  "a",
-                  {
-                    staticClass: "card-link",
-                    staticStyle: { float: "right" },
-                    attrs: { href: "#" }
-                  },
-                  [_vm._v("Generar Reporte")]
-                )
-              ])
-            ]
-          )
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "col-md-6" }, [
-          _c(
-            "div",
-            {
-              staticClass: "card",
-              staticStyle: { width: "60%", margin: "auto", padding: "10px" }
-            },
-            [
-              _c("i", {
-                staticClass: "fas fa-file-invoice-dollar fa-7x",
-                staticStyle: { margin: "auto", top: "10px", color: "#22424d" }
-              }),
-              _vm._v(" "),
-              _c("div", { staticClass: "card-body" }, [
-                _c("h5", { staticClass: "card-title" }, [
-                  _vm._v("Compras y Ventas")
-                ]),
-                _c("br"),
-                _vm._v(" "),
-                _c("p", { staticClass: "card-text" }, [
-                  _vm._v(
-                    "Some quick example text to build on the card title and make up the bulk of the card's content."
-                  )
-                ])
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "card-body" }, [
-                _c(
-                  "a",
-                  {
-                    staticClass: "card-link",
-                    staticStyle: { float: "right" },
-                    attrs: { href: "#" }
-                  },
-                  [_vm._v("Generar Reporte")]
-                )
-              ])
-            ]
-          )
-        ])
+      _c("p", { staticClass: "card-text" }, [
+        _vm._v(
+          "Some quick example text to build on the card title and make up the bulk of the card's content."
+        )
       ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "card-body" }, [
+      _c("h5", { staticClass: "card-title" }, [_vm._v("Pacientes")]),
+      _c("br"),
+      _vm._v(" "),
+      _c("p", { staticClass: "card-text" }, [
+        _vm._v(
+          "Some quick example text to build on the card title and make up the bulk of the card's content."
+        )
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "card-body" }, [
+      _c("h5", { staticClass: "card-title" }, [_vm._v("Inventario")]),
+      _c("br"),
+      _vm._v(" "),
+      _c("p", { staticClass: "card-text" }, [
+        _vm._v(
+          "Some quick example text to build on the card title and make up the bulk of the card's content."
+        )
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-md-6" }, [
+      _c(
+        "div",
+        {
+          staticClass: "card",
+          staticStyle: { width: "60%", margin: "auto", padding: "10px" }
+        },
+        [
+          _c("i", {
+            staticClass: "fas fa-file-invoice-dollar fa-7x",
+            staticStyle: { margin: "auto", top: "10px", color: "#22424d" }
+          }),
+          _vm._v(" "),
+          _c("div", { staticClass: "card-body" }, [
+            _c("h5", { staticClass: "card-title" }, [
+              _vm._v("Compras y Ventas")
+            ]),
+            _c("br"),
+            _vm._v(" "),
+            _c("p", { staticClass: "card-text" }, [
+              _vm._v(
+                "Some quick example text to build on the card title and make up the bulk of the card's content."
+              )
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "card-body" }, [
+            _c(
+              "a",
+              {
+                staticClass: "card-link",
+                staticStyle: { float: "right" },
+                attrs: { href: "#" }
+              },
+              [_vm._v("Generar Reporte")]
+            )
+          ])
+        ]
+      )
     ])
   }
 ]

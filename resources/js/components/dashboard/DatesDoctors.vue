@@ -9,13 +9,13 @@
         
         data(){
             return {
-                 series: [44, 55, 13, 43, 22],
+                 series: [],
                     chartOptions: {
                         chart: {
                         width: 380,
                         type: 'pie',
                         },
-                        labels: ['Team A', 'Team B', 'Team C', 'Team D', 'Team E'],
+                        labels: [],
                         responsive: [{
                         breakpoint: 480,
                         options: {
@@ -30,8 +30,23 @@
                     },
             }
         },
+        created()
+        {
+            this.getData();
+        },
         methods: {
-            
+             getData()
+            {
+                axios.get(this.$route('doctors.dates')).then((response) =>
+                {
+                    response.data.dates_control.forEach(element => {
+                        this.series.push(parseInt(element));
+                    });
+                    response.data.doctors.forEach(element => {
+                        this.chartOptions.labels.push("Doctor "+element);
+                    });
+                });
+            }
         }
     }
 </script>

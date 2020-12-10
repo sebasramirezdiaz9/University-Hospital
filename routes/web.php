@@ -32,6 +32,7 @@ Route::get('/admin/employees', function () {
     return view('system.users.index');
 })->name('users.view');
 
+
 Route::get('/admin/doctors', function () {
     return view('system.doctors.index');
 })->name('doctors.view');

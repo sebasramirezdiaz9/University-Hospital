@@ -17,6 +17,8 @@ import flatPickr from 'vue-flatpickr-component';
 import 'flatpickr/dist/flatpickr.css';
 import vSelect from 'vue-select';
 import 'vue-select/dist/vue-select.css';
+import VueApexCharts from 'vue-apexcharts'
+
 
 // CommonJS
 
@@ -33,7 +35,9 @@ import 'vue-select/dist/vue-select.css';
 Vue.use(ServerTable);
 Vue.use(VModal);
 Vue.use(alvue);
+Vue.use(VueApexCharts);
 
+Vue.component('apexchart', VueApexCharts);
 
 Vue.component('flat-pickr',flatPickr);   
 
@@ -56,6 +60,11 @@ import ProviderIndex from './components/provider/ProviderIndex';
 import PrescriptionCreate from './components/prescriptions/PrescriptionCreate';
 import PrescriptionIndex from './components/prescriptions/PrescriptionIndex';
 import ReportsIndex from './components/reports/ReportsIndex';
+import DashboardPatients from './components/dashboard/DashboardPatients';
+import DatesDoctors from './components/dashboard/DatesDoctors';
+import ProfitsIndex from './components/dashboard/ProfitsIndex';
+import MaxProvider from './components/dashboard/MaxProvider';
+import MinMedicament from './components/dashboard/MinMedicament';
 
 Vue.component('v-select', vSelect);
 /**
@@ -89,6 +98,11 @@ const app = new Vue({
         ProviderIndex,
         PrescriptionCreate,
         PrescriptionIndex,
-        ReportsIndex
+        ReportsIndex,
+        DashboardPatients,
+        DatesDoctors,
+        ProfitsIndex,
+        MaxProvider,
+        MinMedicament
     }
 });

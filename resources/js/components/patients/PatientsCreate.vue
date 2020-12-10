@@ -61,8 +61,8 @@
                         <div class="form-group">
                             <label for="name">Género</label>
                             <select  class="form-control" id="fecha_nacimiento" name="genero" v-model="patient.genero" >
-                                <option value="mujer">Femenino</option>
-                                <option value="hombre">Masculino</option>
+                                <option value="Femenino">Femenino</option>
+                                <option value="Masculino">Masculino</option>
                             </select>
                         </div>
                     </div>

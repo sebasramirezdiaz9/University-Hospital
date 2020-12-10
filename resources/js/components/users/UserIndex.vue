@@ -39,7 +39,7 @@
                     headings: {
                         name: "Nombre",
                         actions: "Acciones",
-                        email:"Correo",
+                        "user.email":"Correo",
                         human_date_created:"Fecha"
                     },
                     sortable:['title',' author','human_date_created'],
@@ -49,7 +49,7 @@
                     },
                     texts: text,
                 },
-                columns:['name','email','human_date_created' ,'actions'],
+                columns:['name','user.email','human_date_created' ,'actions'],
 
             }
         },

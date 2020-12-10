@@ -14,6 +14,7 @@ class CreateStoreProcedureInventario extends Migration
     public function up()
     {
         DB::unprepared('
+        DROP PROCEDURE IF EXISTS sp_insert_inventory;
         CREATE PROCEDURE sp_insert_inventory(IN _medicamento_id INTEGER, _cantidad INTEGER)
         BEGIN
             INSERT INTO `inventory`(`medicamento_id`, `cantidad`) VALUES(_medicamento_id, _cantidad);
@@ -27,6 +28,6 @@ class CreateStoreProcedureInventario extends Migration
      */
     public function down()
     {
-        DB::unprepared('DROP PROCEDURE IF EXISTS sp_insert_tag');
+        DB::unprepared('DROP PROCEDURE IF EXISTS sp_insert_inventory');
     }
 }

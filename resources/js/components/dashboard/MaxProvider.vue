@@ -7,7 +7,7 @@
             <p class="card-text">Se han realizado: <u>{{sells}}</u> compras con este proveedor</p>
         </div>
         <div class="card-body">
-            <a href="#" style="float: right;" class="card-link">Ir a Compras</a>
+            <a href="/admin/provider" style="float: right;" class="card-link">Ir a Proveedores</a>
         </div>
     </div>
 </template>

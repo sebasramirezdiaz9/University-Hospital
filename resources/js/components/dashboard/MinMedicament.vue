@@ -7,7 +7,7 @@
             <p class="card-text">El medicamento cuenta con una cantidad en inventario de: <u>{{array_result[0].cantidad}}</u></p>
         </div>
         <div class="card-body">
-            <a href="#" style="float: right;" class="card-link">Ir a Inventario</a>
+            <a href="/admin/inventory" style="float: right;" class="card-link">Ir a Inventario</a>
         </div>
     </div>
 </template>

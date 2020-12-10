@@ -10,6 +10,7 @@ use App\Http\Controllers\DateController;
 use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\ProviderController;
 use App\Http\Controllers\PrescriptionController;
+use App\Http\Controllers\SaleController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\FileController;
 /*
@@ -69,6 +70,10 @@ Route::get('/admin/reports', function () {
     return view('system.reports.index');
 })->name('reports.view');
 
+Route::get('/admin/sales', function () {
+    return view('system.sales.index');
+})->name('sales.view');
+
 
 
 Auth::routes();
@@ -86,9 +91,12 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('/file', FileController::class);
     Route::resource('/inventory', InventoryController::class);
     Route::resource('/provider', ProviderController::class);
+    Route::resource('/sales', SaleController::class);
     Route::resource('/prescriptions', PrescriptionController::class);
     Route::get('get/doctors/all/', [DoctorController::class, 'getAllDoctors'])->name('doctors.all');
+    Route::get('get/dates/month/', [DateController::class, 'getDatesByMonth'])->name('dates.month');
     Route::get('get/patients/all/', [PatientsController::class, 'getAllPatients'])->name('patients.all');
+    Route::get('get/methods/all/', [SaleController::class, 'getMethods'])->name('methods.all');
     Route::get('get/medicines/all/', [MedicineController::class, 'getAllMedicines'])->name('medicines.all');
     Route::get('get/prescription/{id}/pdf', [PrescriptionController::class, 'downloadPdf'])->name('prescription.pdf');
     Route::get('get/patients/pdf', [PatientsController::class, 'getPdf'])->name('patients.pdf');

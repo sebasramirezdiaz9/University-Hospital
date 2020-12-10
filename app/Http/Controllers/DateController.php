@@ -99,6 +99,20 @@ class DateController extends Controller
     
     }
 
+    public function getDatesByMonth()
+    {
+        $dates = DB::select('SELECT MONTH(created_at) AS mes, COUNT(id) as total FROM `citas` group by MONTH(created_at)');
+        $array = array();
+
+        $array = array_pad($array,12,0);
+       
+        foreach($dates as $date)
+        {
+            $array[$date->mes -1] = $date->total;
+        }
+        return $array;
+    }
+
     public function dateChart()
     {
         $dates = DB::select('select a.name as Doctor, COUNT(b.id) as citas from doctores a, citas b where a.id = b.doctor_id group by a.name');

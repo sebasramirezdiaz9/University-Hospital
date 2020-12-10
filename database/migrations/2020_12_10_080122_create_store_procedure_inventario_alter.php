@@ -14,6 +14,7 @@ class CreateStoreProcedureInventarioAlter extends Migration
     public function up()
     {
         DB::unprepared('
+        DROP PROCEDURE IF EXISTS sp_update_inventory;
         CREATE PROCEDURE sp_update_inventory(IN _medicamento_id INTEGER, _cantidad INTEGER)
         BEGIN
             UPDATE `inventory` SET cantidad = _cantidad where medicamento_id = _medicamento;

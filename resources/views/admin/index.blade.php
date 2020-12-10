@@ -22,13 +22,13 @@
             <div class="col-md-12">
             <div class="card">
                     <div class="card-body">
-                        <p>Ingresos por cita</p>
+                        <p>Citas En el Año</p>
                     <profits-index></profits-index>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="row">
+        <div class="row mt-5">
             <div class="col-md-6">
             <div class="card">
                     <div class="card-body">

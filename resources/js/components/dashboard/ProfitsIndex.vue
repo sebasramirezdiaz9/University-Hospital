@@ -13,7 +13,7 @@
         data(){
             return {
                 series: [{
-              name: "Ingresos",
+              name: "Citas",
               data: [10, 41, 35, 51, 49, 62, 69, 91, 148, 120, 45, 100]
           }],
           chartOptions: {
@@ -44,8 +44,19 @@
           
             }
         },
+        created()
+        {
+            this.getData();
+        },
         methods: {
-            
+            getData()
+            {
+                axios.get(this.$route('dates.month')).then((response) =>
+                {
+                    this.series = [];
+                    this.series.push({name: "Citas", data: response.data});
+                });
+            }
         }
     }
 </script>

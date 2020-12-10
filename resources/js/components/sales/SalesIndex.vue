@@ -1,16 +1,11 @@
 <template>
     <div>
-       <v-server-table :url="$route('doctors.index')" :columns="columns" ref="table" :options="options" :filterByColumn="true" >
+       <v-server-table :url="$route('sales.index')" :columns="columns" ref="table" :options="options" :filterByColumn="true" >
             <div slot="actions" slot-scope="props" class="action-buttons">
-                         <template v-if="props.row.email_verified_at==null">
-                            <button title="Reenviar email" type="button" class="btn btn-warning" :data-id="props.row.id" @click="resendEmail(props.row.id)">
-                                <i class="far fa-envelope"></i>
-                            </button>
-                        </template>
-                        <button  title="Ver" :data-id="props.row.id"  type="button" class="btn btn-success" @click="$modal.show('show-user',props.row.id)">
+                        <button  title="Ver" :data-id="props.row.id"  type="button" class="btn btn-success" @click="$modal.show('show-provider',props.row.id)">
                             <i class="fas fa-eye"></i>
                         </button>
-                        <button  title="Editar" :data-id="props.row.id" type="button" class="btn btn-info"  @click="$modal.show('edit-user',props.row.id)">
+                        <button  title="Editar" :data-id="props.row.id" type="button" class="btn btn-info"  @click="$modal.show('edit-provider',props.row.id)">
                             <i class="fas fa-edit" aria-hidden="true"></i>
                         </button>
                     <button  title="Eliminar" :data-id="props.row.id"  class="btn btn-danger" @click="deleteRegister(props.row.id)">
@@ -18,15 +13,15 @@
                     </button>
             </div>
         </v-server-table>
-        <user-show></user-show>
-        <user-edit></user-edit>
+        <sales-show></sales-show>
+         <sales-edit></sales-edit>
     </div>
 </template>
 <script>
 
     import text from './../tables/text.js';
-    import UserShow from './UserShow.vue';
-    import UserEdit from './UserEdit';
+    import SalesShow from './SalesShow.vue';
+    import SalesEdit from './SalesEdit';
     import Swal from 'sweetalert2';
     export default {
         data(){
@@ -37,9 +32,10 @@
                     perPageValues: [10,25,50,100],
                     filterByColumn: true,
                     headings: {
-                        name: "Nombre",
+                        razon_social: "Razon Social",
+                        telefono:"Teléfono",
                         actions: "Acciones",
-                        "user.email":"Correo",
+                        contacto_directo: "Contacto Directo",
                         human_date_created:"Fecha"
                     },
                     sortable:['title',' author','human_date_created'],
@@ -49,13 +45,13 @@
                     },
                     texts: text,
                 },
-                columns:['name','user.email','human_date_created' ,'actions'],
+                columns:['razon_social','telefono','contacto_directo','human_date_created' ,'actions'],
 
             }
         },
         components:{
-            UserShow,
-            UserEdit
+            SalesShow,
+            SalesEdit
         },
         methods: {
             deleteRegister(id) {
@@ -70,7 +66,7 @@
                     confirmButtonText: 'Si, Eliminar!'
                 }).then((result) => {
                     if (result.value) {
-                        axios.delete(route('doctors.destroy', [id]), {
+                        axios.delete(route('sales.destroy', [id]), {
                         }).then( () => {
                             this.$refs.table.refresh();
                         }).catch(function (error) {

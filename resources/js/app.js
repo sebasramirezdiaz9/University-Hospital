@@ -53,7 +53,8 @@ import DateCreate from './components/dates/DateCreate';
 import DateIndex from './components/dates/DateIndex';
 import FileCreate from './components/file/FileCreate';
 import FileIndex from './components/file/FileIndex';
-
+import SalesCreate from './components/sales/SalesCreate';
+import SalesIndex from './components/sales/SalesIndex';
 import InventoryIndex from './components/inventory/InventoryIndex'
 import ProviderCreate from './components/provider/ProviderCreate';
 import ProviderIndex from './components/provider/ProviderIndex';
@@ -103,6 +104,8 @@ const app = new Vue({
         DatesDoctors,
         ProfitsIndex,
         MaxProvider,
-        MinMedicament
+        MinMedicament,
+        SalesCreate,
+        SalesIndex
     }
 });

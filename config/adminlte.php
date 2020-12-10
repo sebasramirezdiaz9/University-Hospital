@@ -298,7 +298,7 @@ return [
         ],
         [
             'text' => 'Ventas',
-            'url'  => 'admin/settings',
+            'url'  => '/admin/sales',
             'icon' => 'fas fa-dollar-sign',
         ],
        

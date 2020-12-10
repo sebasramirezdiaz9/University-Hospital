@@ -14,6 +14,7 @@ class CreateStoreProcedureMedicamentoReceta extends Migration
     public function up()
     {
         DB::unprepared('
+        DROP PROCEDURE IF EXISTS sp_insert_medicamento_receta;
         CREATE PROCEDURE sp_insert_medicamento_receta(IN _medicamento_id INTEGER, _receta_medica_id INTEGER, instrucciones VARCHAR(255))
         BEGIN
             INSERT INTO `medicamento_receta_medica`(`medicamento_id`, `receta_medica_id`, `instrucciones`) VALUES(_medicamento_id, _receta_medica_id, _instrucciones);

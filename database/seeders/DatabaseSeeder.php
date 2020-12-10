@@ -25,5 +25,6 @@ class DatabaseSeeder extends Seeder
         $this->call(RecetasTMedicasSeederTable::class);
         $this->call(RecetasTNMedicamentosSeederTable::class);
         $this->call(MyInventorySeederTable::class);
+        $this->call(ProviderSeederTable::class);
     }
 }

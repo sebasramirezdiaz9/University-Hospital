@@ -97,7 +97,7 @@ class ProviderController extends Controller
       
     }
 
-    public function getAllPatients()
+    public function getAllProvider()
     {
         return Provider::all();
     }
